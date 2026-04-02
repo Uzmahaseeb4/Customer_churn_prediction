@@ -46,7 +46,53 @@ df['Total_Charges'] = pd.to_numeric(df['Total_Charges'], errors='coerce')
 df['Total_Charges'] = df['Total_Charges'].fillna(df['Total_Charges'].median())
 
 # ==============================
-# 4. FEATURE / TARGET SPLIT
+# 4. EXPLORATORY DATA ANALYSIS (EDA)
+# ==============================
+print("\n--- Starting Exploratory Data Analysis ---")
+
+# a. Target Variable Distribution
+plt.figure(figsize=(6, 4))
+sns.countplot(data=df, x='Churn_Value', palette='viridis')
+plt.title('Churn Distribution')
+plt.xlabel('Churn (0 = No, 1 = Yes)')
+plt.ylabel('Count')
+plt.show()
+
+# b. Categorical Features vs Churn
+categorical_cols = ['Gender', 'Senior_Citizen', 'Partner', 'Dependents', 
+                    'Contract', 'Payment_Method', 'Internet_Service']
+existing_cat_cols = [c for c in categorical_cols if c in df.columns]
+
+for col in existing_cat_cols:
+    plt.figure(figsize=(8, 4))
+    sns.countplot(data=df, x=col, hue='Churn_Value', palette='Set2')
+    plt.title(f'Churn by {col}')
+    plt.xticks(rotation=45)
+    plt.tight_layout()
+    plt.show()
+
+# c. Numerical Features Distribution
+numerical_cols = ['Tenure_Months', 'Monthly_Charges', 'Total_Charges']
+existing_num_cols = [c for c in numerical_cols if c in df.columns]
+
+for col in existing_num_cols:
+    plt.figure(figsize=(8, 4))
+    sns.kdeplot(data=df, x=col, hue='Churn_Value', fill=True, palette='magma', common_norm=False)
+    plt.title(f'{col} Distribution by Churn')
+    plt.tight_layout()
+    plt.show()
+
+# d. Correlation Heatmap for Numerical Features
+if existing_num_cols:
+    plt.figure(figsize=(8, 6))
+    correlation_matrix = df[existing_num_cols + ['Churn_Value']].corr()
+    sns.heatmap(correlation_matrix, annot=True, cmap='coolwarm', fmt='.2f', linewidths=0.5)
+    plt.title('Correlation Heatmap')
+    plt.tight_layout()
+    plt.show()
+
+# ==============================
+# 5. FEATURE / TARGET SPLIT
 # Drop leakage columns:
 #   - Churn_Label : string version of target
 #   - Churn_Score : derived directly from churn probability
@@ -59,14 +105,14 @@ print(f"\nTarget distribution:\n{y.value_counts()}")
 print(f"Churn rate: {y.mean()*100:.1f}%")
 
 # ==============================
-# 5. ENCODING
+# 6. ENCODING
 # drop_first=False for full interpretability across all models
 # ==============================
 X = pd.get_dummies(X, drop_first=False)
 feature_names = X.columns.tolist()
 
 # ==============================
-# 6. TRAIN / TEST SPLIT
+# 7. TRAIN / TEST SPLIT
 # stratify=y ensures same churn ratio in both sets
 # ==============================
 X_train, X_test, y_train, y_test = train_test_split(
@@ -74,7 +120,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # ==============================
-# 7. SCALING
+# 8. SCALING
 # Fit only on train — transform both
 # Keep as DataFrame to preserve feature names (needed for SHAP)
 # ==============================
@@ -83,7 +129,7 @@ X_train_scaled = pd.DataFrame(scaler.fit_transform(X_train), columns=feature_nam
 X_test_scaled  = pd.DataFrame(scaler.transform(X_test),  columns=feature_names)
 
 # ==============================
-# 8. SMOTE (on train only — never touch test)
+# 9. SMOTE (on train only — never touch test)
 # Applied after scaling so synthetic points are in the same feature space
 # ==============================
 smote = SMOTE(random_state=42)
@@ -93,7 +139,7 @@ print(f"\nClass distribution BEFORE SMOTE: {dict(y_train.value_counts())}")
 print(f"Class distribution AFTER  SMOTE: {dict(pd.Series(y_train_sm).value_counts())}")
 
 # ==============================
-# 9. RANDOM FOREST
+# 10. RANDOM FOREST
 # ==============================
 rf = RandomForestClassifier(n_estimators=200, random_state=42, n_jobs=-1)
 rf.fit(X_train_sm, y_train_sm)
@@ -108,7 +154,7 @@ print(confusion_matrix(y_test, y_pred_rf))
 print(classification_report(y_test, y_pred_rf))
 
 # ==============================
-# 10. XGBOOST
+# 11. XGBOOST
 # eval_metric set explicitly to suppress warnings
 # use_label_encoder=False for compatibility with newer XGBoost versions
 # ==============================
@@ -133,7 +179,7 @@ print(confusion_matrix(y_test, y_pred_xgb))
 print(classification_report(y_test, y_pred_xgb))
 
 # ==============================
-# 11. CONFUSION MATRICES (side by side)
+# 12. CONFUSION MATRICES (side by side)
 # ==============================
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
@@ -154,7 +200,7 @@ plt.tight_layout()
 plt.show()
 
 # ==============================
-# 12. ROC CURVE COMPARISON
+# 13. ROC CURVE COMPARISON
 # ==============================
 fpr_rf,  tpr_rf,  _ = roc_curve(y_test, y_prob_rf)
 fpr_xgb, tpr_xgb, _ = roc_curve(y_test, y_prob_xgb)
@@ -174,7 +220,7 @@ plt.tight_layout()
 plt.show()
 
 # ==============================
-# 13. FEATURE IMPORTANCE (Random Forest)
+# 14. FEATURE IMPORTANCE (Random Forest)
 # ==============================
 feat_imp = pd.Series(rf.feature_importances_, index=feature_names)
 feat_imp = feat_imp.sort_values(ascending=False)
@@ -190,7 +236,7 @@ plt.tight_layout()
 plt.show()
 
 # ==============================
-# 14. SHAP ANALYSIS
+# 15. SHAP ANALYSIS
 # TreeExplainer is exact and fast for both RF and XGBoost.
 # We use XGBoost for SHAP (typically sharper explanations).
 # FIX: Compute SHAP on the FULL test set (not a 200-row sample).
@@ -216,7 +262,7 @@ shap.summary_plot(shap_plot, X_plot, plot_type="dot")
 shap.summary_plot(shap_plot, X_plot, plot_type="bar")
 
 # ==============================
-# 15. CROSS VALIDATION (XGBoost Pipeline)
+# 16. CROSS VALIDATION (XGBoost Pipeline)
 # ImbPipeline ensures SMOTE runs inside each fold — no leakage.
 # StratifiedKFold is the default for classification in cross_val_score.
 # ==============================
@@ -242,7 +288,7 @@ print("Mean  CV AUC    :", round(cv_scores.mean(), 4))
 print("Std   CV AUC    :", round(cv_scores.std(),  4))
 
 # ==============================
-# 16. ACTIONABLE CUSTOMER RETENTION INSIGHTS
+# 17. ACTIONABLE CUSTOMER RETENTION INSIGHTS
 # Identify high-risk customers from the test set.
 # Use SHAP to find the top churn driver for each at-risk customer.
 # Translate those drivers into business retention actions.
