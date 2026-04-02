@@ -179,14 +179,29 @@ print(confusion_matrix(y_test, y_pred_xgb))
 print(classification_report(y_test, y_pred_xgb))
 
 # ==============================
-# 12. CONFUSION MATRICES (side by side)
+# 12 LOGISTIC REGRESSION (Baseline)
+# ==============================
+lr = LogisticRegression(random_state=42, max_iter=1000)
+lr.fit(X_train_sm, y_train_sm)
+
+y_pred_lr = lr.predict(X_test_scaled)
+y_prob_lr = lr.predict_proba(X_test_scaled)[:, 1]
+
+print("\n========== Logistic Regression ==========")
+print("Accuracy :", accuracy_score(y_test, y_pred_lr))
+print("ROC-AUC  :", roc_auc_score(y_test, y_prob_lr))
+print(confusion_matrix(y_test, y_pred_lr))
+print(classification_report(y_test, y_pred_lr))
+
+# ==============================
+# 13. CONFUSION MATRICES (side by side)
 # ==============================
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
 for ax, y_pred, title in zip(
     axes,
-    [y_pred_rf, y_pred_xgb],
-    ["Random Forest", "XGBoost"]
+    [y_pred_rf, y_pred_xgb,y_pred_lr],
+    ["Random Forest", "XGBoost","Logistic Regression"]
 ):
     cm = confusion_matrix(y_test, y_pred)
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax,
@@ -200,17 +215,20 @@ plt.tight_layout()
 plt.show()
 
 # ==============================
-# 13. ROC CURVE COMPARISON
+# 14. ROC CURVE COMPARISON
 # ==============================
 fpr_rf,  tpr_rf,  _ = roc_curve(y_test, y_prob_rf)
 fpr_xgb, tpr_xgb, _ = roc_curve(y_test, y_prob_xgb)
+fpr_lr,  tpr_lr,  _ = roc_curve(y_test, y_prob_lr)
 
 auc_rf  = roc_auc_score(y_test, y_prob_rf)
 auc_xgb = roc_auc_score(y_test, y_prob_xgb)
+auc_lr  = roc_auc_score(y_test, y_prob_lr)
 
 plt.figure(figsize=(8, 6))
 plt.plot(fpr_rf,  tpr_rf,  label=f"Random Forest  AUC = {auc_rf:.3f}")
 plt.plot(fpr_xgb, tpr_xgb, label=f"XGBoost        AUC = {auc_xgb:.3f}")
+plt.plot(fpr_lr,  tpr_lr,  label=f"Logistic Regression    AUC = {auc_lr:.3f}")
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random Classifier')
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
