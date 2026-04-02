@@ -12,7 +12,8 @@ from sklearn.metrics import (
     classification_report, confusion_matrix,
     accuracy_score, roc_auc_score, roc_curve
 )
-from sklearn.ensemble import RandomForestClassifier
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier, AdaBoostClassifier
 from xgboost import XGBClassifier
 
 from imblearn.over_sampling import SMOTE
