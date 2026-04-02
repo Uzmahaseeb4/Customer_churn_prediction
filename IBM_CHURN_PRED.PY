@@ -179,7 +179,7 @@ print(confusion_matrix(y_test, y_pred_xgb))
 print(classification_report(y_test, y_pred_xgb))
 
 # ==============================
-# 12 LOGISTIC REGRESSION (Baseline)
+# 12. LOGISTIC REGRESSION 
 # ==============================
 lr = LogisticRegression(random_state=42, max_iter=1000)
 lr.fit(X_train_sm, y_train_sm)
@@ -194,14 +194,29 @@ print(confusion_matrix(y_test, y_pred_lr))
 print(classification_report(y_test, y_pred_lr))
 
 # ==============================
-# 13. CONFUSION MATRICES (side by side)
+# 13. ADABOOST CLASSIFIER 
+# ==============================
+ada = AdaBoostClassifier(n_estimators=100, random_state=42)
+ada.fit(X_train_sm, y_train_sm)
+
+y_pred_ada = ada.predict(X_test_scaled)
+y_prob_ada = ada.predict_proba(X_test_scaled)[:, 1]
+
+print("\n========== AdaBoost Classifier ==========")
+print("Accuracy :", accuracy_score(y_test, y_pred_ada))
+print("ROC-AUC  :", roc_auc_score(y_test, y_prob_ada))
+print(confusion_matrix(y_test, y_pred_ada))
+print(classification_report(y_test, y_pred_ada))
+
+# ==============================
+# 14. CONFUSION MATRICES (side by side)
 # ==============================
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
 
 for ax, y_pred, title in zip(
     axes,
-    [y_pred_rf, y_pred_xgb,y_pred_lr],
-    ["Random Forest", "XGBoost","Logistic Regression"]
+    [y_pred_rf, y_pred_xgb,y_pred_lr,y_pred_ada],
+    ["Random Forest", "XGBoost","Logistic Regression","ADABOOST CLASSIFIER"]
 ):
     cm = confusion_matrix(y_test, y_pred)
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', ax=ax,
@@ -215,24 +230,27 @@ plt.tight_layout()
 plt.show()
 
 # ==============================
-# 14. ROC CURVE COMPARISON
+# 15. ROC CURVE COMPARISON
 # ==============================
 fpr_rf,  tpr_rf,  _ = roc_curve(y_test, y_prob_rf)
 fpr_xgb, tpr_xgb, _ = roc_curve(y_test, y_prob_xgb)
 fpr_lr,  tpr_lr,  _ = roc_curve(y_test, y_prob_lr)
+fpr_ada, tpr_ada, _ = roc_curve(y_test, y_prob_ada)
 
 auc_rf  = roc_auc_score(y_test, y_prob_rf)
 auc_xgb = roc_auc_score(y_test, y_prob_xgb)
 auc_lr  = roc_auc_score(y_test, y_prob_lr)
+auc_ada = roc_auc_score(y_test, y_prob_ada)
 
 plt.figure(figsize=(8, 6))
-plt.plot(fpr_rf,  tpr_rf,  label=f"Random Forest  AUC = {auc_rf:.3f}")
-plt.plot(fpr_xgb, tpr_xgb, label=f"XGBoost        AUC = {auc_xgb:.3f}")
+plt.plot(fpr_rf,  tpr_rf,  label=f"Random Forest          AUC = {auc_rf:.3f}")
+plt.plot(fpr_xgb, tpr_xgb, label=f"XGBoost                AUC = {auc_xgb:.3f}")
 plt.plot(fpr_lr,  tpr_lr,  label=f"Logistic Regression    AUC = {auc_lr:.3f}")
+plt.plot(fpr_ada, tpr_ada, label=f"AdaBoost               AUC = {auc_ada:.3f}")
 plt.plot([0, 1], [0, 1], linestyle='--', color='gray', label='Random Classifier')
 plt.xlabel("False Positive Rate")
 plt.ylabel("True Positive Rate")
-plt.title("ROC Curve — Random Forest vs XGBoost")
+plt.title("ROC Curve — All Models")
 plt.legend()
 plt.tight_layout()
 plt.show()
