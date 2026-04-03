@@ -65,5 +65,6 @@ Exploratory Data Analysis (EDA) is an important step in data analysis where we e
 ### 3. Handling Class Imbalance (SMOTE)
 
 ### 4. Predictive Modeling
+### 5. Integrating Streamlit 
 
 ### 5. Explainable AI (SHAP)
