@@ -6,7 +6,7 @@
 
 
 ## 📊 Project Overview
-Customer Churn Prediction capstone project leveraging machine learning models such as Decision Tree and Random Forest. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
+Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest and XG Boost. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
 
 
 
@@ -58,13 +58,19 @@ Multiple classifiers were trained and evaluated. The best-performing model was s
 ## Methodology & Machine Learning Pipeline
 
 ### 1. Data Preprocessing
+Data preprocessing involved cleaning the dataset, handling missing values, encoding categorical variables, and scaling features to prepare the data for modeling.
 
 ### 2. Exploratory Data Analysis (EDA)
 Exploratory Data Analysis (EDA) is an important step in data analysis where we explore and visualise the data to understand its main features, find patterns and see how different variables are related.
 
 ### 3. Handling Class Imbalance (SMOTE)
+SMOTE (Synthetic Minority Over-sampling Technique) was used in the model to balance the dataset by generating synthetic samples for the minority class, improving the model’s ability to learn from underrepresented data and enhancing overall performance.
 
 ### 4. Predictive Modeling
+Predictive models including XGBoost and Random Forest were implemented to improve accuracy and compare performance.
 
 ### 5. Explainable AI (SHAP)
+SHAP was used to interpret the model by explaining the contribution of each feature to the predictions.
+
 ### 6.Integrating Streamlit
+Streamlit was used to develop an interactive web application for deploying and visualizing the model results.
