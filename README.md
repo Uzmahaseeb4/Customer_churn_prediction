@@ -6,7 +6,7 @@
 
 
 ## 📊 Project Overview
-Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest and XG Boost. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
+Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest, XG Boost.In addition Logistic regression and adaboost were also implemented. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
 
 
 
@@ -67,7 +67,7 @@ Exploratory Data Analysis (EDA) is an important step in data analysis where we e
 SMOTE (Synthetic Minority Over-sampling Technique) was used in the model to balance the dataset by generating synthetic samples for the minority class, improving the model’s ability to learn from underrepresented data and enhancing overall performance.
 
 ### 4. Predictive Modeling
-Predictive models including XGBoost and Random Forest were implemented to improve accuracy and compare performance.
+Predictive models including XGBoost, Adaboost, Logistc Regression, Random Forest were implemented to improve accuracy and compare performance.
 
 ### 5. Explainable AI (SHAP)
 SHAP was used to interpret the model by explaining the contribution of each feature to the predictions.
