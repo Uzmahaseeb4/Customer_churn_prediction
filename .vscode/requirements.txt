@@ -1,0 +1,18 @@
+# Project dependencies for Telecom Customer Churn Prediction
+
+# Core libraries
+pandas
+numpy
+
+# Visualization
+matplotlib
+seaborn
+
+# Machine learning and model explainability
+scikit-learn
+xgboost
+imblearn
+shap
+
+# Web app deployment
+streamlit
