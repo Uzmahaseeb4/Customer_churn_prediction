@@ -6,7 +6,7 @@
 
 
 ## 📊 Project Overview
-Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest, XG Boost.In addition Logistic regression and adaboost were also implemented. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
+Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest, XG Boost. In addition Logistic regression and adaboost were also implemented. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
 
 
 
@@ -51,7 +51,7 @@ Multiple classifiers were trained and evaluated. The best-performing model was s
 | **AdaBoost Classifier** ✅ | **~76%** | **~53%** | **~75%** | **~62%** |
 
 
-> In churn prediction, recall is usually prioritized because missing churners is more costly than targeting a few extra non-churners. That means Logistic Regression or AdaBoost will be the most useful.
+> In churn prediction, recall is usually prioritised because missing churners is more costly than targeting a few extra non-churners. That means Logistic Regression or AdaBoost will be the most useful.
 
 ---
 
@@ -67,10 +67,68 @@ Exploratory Data Analysis (EDA) is an important step in data analysis where we e
 SMOTE (Synthetic Minority Over-sampling Technique) was used in the model to balance the dataset by generating synthetic samples for the minority class, improving the model’s ability to learn from underrepresented data and enhancing overall performance.
 
 ### 4. Predictive Modeling
-Predictive models including XGBoost, Adaboost, Logistc Regression, Random Forest were implemented to improve accuracy and compare performance.
+Predictive models, including XGBoost, Adaboost, Logistic Regression, and Random Forest, were implemented to improve accuracy and compare performance.
 
 ### 5. Explainable AI (SHAP)
 SHAP was used to interpret the model by explaining the contribution of each feature to the predictions.
 
 ### 6.Integrating Streamlit
-Streamlit was used to develop an interactive web application for deploying and visualizing the model results.
+Streamlit was used to develop an interactive web application for deploying and visualising the model results.
+
+
+## 🚀 Installation & Setup
+
+### Prerequisites
+- Python 3.8 or higher
+- pip package manager
+
+### Installation Steps
+1. Clone or download this repository
+2. Create a Python virtual environment:
+   ```bash
+   python -m venv venv
+   source venv/bin/activate         # macOS/Linux
+   venv\Scripts\activate             # Windows
+   ```
+3. Install dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Running the Application
+To launch the Streamlit web app:
+```bash
+streamlit run churn_rev_app.py
+```
+
+The app will open at `http://localhost:8501`.
+
+---
+
+## 🌐 Live Deployment
+
+- **Streamlit Cloud**: [Add your deployment URL here]
+
+---
+
+## 📁 Repository Structure
+
+```
+Customer_churn_prediction-main/
+├── aap.py                          # Helper functions and utilities
+├── churn_rev_app.py                # Main Streamlit application
+├── IBM_CHURN_PRED.ipynb            # Complete analysis notebook
+├── IBM_CHURN_PRED.PY               # Standalone Python pipeline
+├── README.md                        # This file
+├── requirements.txt                # Project dependencies
+├── Telco_customer_churn.xlsx       # Dataset file
+└── individual_profiles/            # Team member GitHub activity screenshots
+```
+
+---
+
+
+## 📝 License
+
+This project is provided for educational purposes as part of a capstone project.
+
