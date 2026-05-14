@@ -1,5 +1,5 @@
 # Project dependencies for Telecom Customer Churn Prediction
-
+openpyxl
 # Core libraries
 pandas
 numpy
