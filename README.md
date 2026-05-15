@@ -4,7 +4,11 @@
 
 </div>
 
-
+| Name | Reg No | Course |
+| --- | --- | --- |
+| [Member A Name] | [Reg No] | [Course] |
+| [Member B Name] | [Reg No] | [Course] |
+| Arun P S| 253206 | MSc DataScience and BioAI |
 ## 📊 Project Overview
 Customer Churn Prediction capstone project leveraging machine learning models such as Random Forest, XG Boost. In addition Logistic regression and adaboost were also implemented. The project includes data preprocessing, class imbalance handling (SMOTE), model evaluation using ROC-AUC, and SHAP-based explainability to generate actionable business insights.
 
