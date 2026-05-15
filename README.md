@@ -113,9 +113,6 @@ The app will open at `http://localhost:8501`.
 
 - **Streamlit Cloud**: https://customerchurnprediction-23z6zwjak8kgu2sktpvqrm.streamlit.app/
 - ## 🌐 Live Demo
-
-🔗 **[customerchurnprediction-...streamlit.app](https://...)**
-
 ![App Homepage](images/homepage.png)
 
 ---
