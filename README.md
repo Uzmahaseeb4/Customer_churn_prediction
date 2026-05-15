@@ -112,7 +112,7 @@ The app will open at `http://localhost:8501`.
 ## 🌐 Live Deployment
 
 - **Streamlit Cloud**: https://customerchurnprediction-23z6zwjak8kgu2sktpvqrm.streamlit.app/
-- ## 🌐 Live Demo
+- ## 🌐 Home Page
 ![App Homepage](images/homepage.png)
 
 ---
