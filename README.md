@@ -6,7 +6,7 @@
 
 | Name | Reg No | Course |
 | --- | --- | --- |
-| [Member A Name] | [Reg No] | [Course] |
+| Uzma Haseeb | 253224 | MSc DataScience and BioAI|
 | [Member B Name] | [Reg No] | [Course] |
 | Arun P S| 253206 | MSc DataScience and BioAI |
 ## 📊 Project Overview
